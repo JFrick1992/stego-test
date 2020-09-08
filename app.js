@@ -28,6 +28,10 @@ const decrypt = (encryptedMessage, key) => {
     decrypted += decipher.final('utf-8')
     return decrypted
 }
+
+const getStringLenInBinary = str => new Array(32 - str.length.toString(2).length + 1).join("0") + str.length.toString(2)
+
+
 //Example
 // const key = getRandom32ByteKey()
 // const iv = get16ByteIv()

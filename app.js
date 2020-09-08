@@ -1,5 +1,5 @@
 const crypto = require("crypto")
-
+const Jimp = require('jimp')
 const charToBinary = (c) => {
     let encodedChar = c.charCodeAt().toString(2);
     const str = new Array(8 - encodedChar.length + 1).join("0")
@@ -31,7 +31,34 @@ const decrypt = (encryptedMessage, key) => {
 
 const getStringLenInBinary = str => new Array(32 - str.length.toString(2).length + 1).join("0") + str.length.toString(2)
 
+const getImage = (imagePath, cb) => {
+    Jimp.read(imagePath, (err, image) => {
+        if (err) throw err
+        else return cb(image)
+    })
+}
 
+
+
+        //     let newBuff = []
+        //     let count = 0
+        //     let newColor = ""
+        //     for (let hex of image.bitmap.data) {
+        //         if (count < 1008 * 400) {
+        //             if(count % 4 === 0 || count % 4 === 3) {
+        //                 newBuff.push(255)
+        //             }
+        //             else {
+        //                 newBuff.push(0)
+        //             }
+        //         } else {
+        //             newBuff.push(hex)
+        //         }
+        //         count++
+        //     }
+        //     const buffer = Buffer.from(newBuff)
+        //     image.bitmap.data = buffer
+        //     return image.write('./steg-images/as-dgd.PNG')
 //Example
 // const key = getRandom32ByteKey()
 // const iv = get16ByteIv()

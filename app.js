@@ -1,14 +1,27 @@
 const crypto = require("crypto")
 const Jimp = require('jimp')
 const charToBinary = (c) => {
-    let encodedChar = c.charCodeAt().toString(2);
+    let encodedChar = c.charCodeAt().toString(2)
     const str = new Array(8 - encodedChar.length + 1).join("0")
     return str + encodedChar
 }
 const binaryToChar = (bin) => {
     return String.fromCharCode(parseInt(bin, 2))
 }
-
+const convertBinaryToString = bin => {
+    let str = ''
+    for(let i = 0; i < bin.length; i+=8) {
+        str += binaryToChar(bin.substring(i, i + 8))
+    }
+    return str
+}
+const convertStringToBinary = str => {
+    let binaryString = ''
+    for(let c in str) {
+        binaryString += charToBinary(str[c])
+    }
+    return binaryString
+}
 const get16ByteIv = (_) => crypto.randomBytes(16)
 const getIvFromBase64 = (b64) => Buffer.from(b64, "base64")
 const getRandom32ByteKey = (_) => crypto.randomBytes(24).toString('base64')
@@ -30,12 +43,15 @@ const decrypt = (encryptedMessage, key) => {
 }
 
 const getStringLenInBinary = str => new Array(32 - str.length.toString(2).length + 1).join("0") + str.length.toString(2)
-
 const getImage = (imagePath, cb) => {
     Jimp.read(imagePath, (err, image) => {
         if (err) throw err
         else return cb(image)
     })
+}
+const LSBDataToImage = (message) => {
+
+
 }
 
 

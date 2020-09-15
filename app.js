@@ -67,10 +67,10 @@ const getImage = (imagePath, cb) => {
 }
 const encodeMessageLength = (buffer, message) => {
     const length = getStringLenInBinary(message)
-    for(let i = 0, j = 0; i < 16; i++, j+=2) {
+    for (let i = 0, j = 0; i < 16; i++, j += 2) {
         let hex = buffer[i].toString(2)
         hex = new Array(8 - hex.length + 1).join("0") + hex
-        buffer[i] = parseInt((hex.substring(0,6) + length.substring(j, j+2)), 2)
+        buffer[i] = parseInt((hex.substring(0, 6) + length.substring(j, j + 2)), 2)
     }
     return buffer
 }
@@ -79,17 +79,19 @@ const LSBDataToImage = (encryptedMessage, imagePath) => {
         if (err) throw err
         else {
             let buffer = image.bitmap.data
-            buffer = encodeMessageLength(buffer.slice(0,16), encryptedMessage)
+            buffer = encodeMessageLength(buffer.slice(0, 16), encryptedMessage)
 
         }
     })
 }
+const getSHA256Hash = str => Buffer.from(crypto.createHash('sha256').update(str).digest('hex'), 'hex')
 
-const key = getRandom32ByteKey()
-const iv = get16ByteIv()
-const message = 'Hello beautiful you are so gorgeous'
-const encryptedMessage = encrypt(message, key, iv)
-LSBDataToImage(encryptedMessage, './images/as-dgd.PNG')
+
+// const key = getRandom32ByteKey()
+// const iv = get16ByteIv()
+// const message = 'Hello beautiful you are so gorgeous'
+// const encryptedMessage = encrypt(message, key, iv)
+// LSBDataToImage(encryptedMessage, './images/as-dgd.PNG')
         //     let newBuff = []
         //     let count = 0
         //     let newColor = ""
